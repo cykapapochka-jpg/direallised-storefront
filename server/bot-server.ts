@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { createBot } from "./bot";
-import { updateStore } from "./store";
+import { createBot } from "./bot.js";
+import { updateStore } from "./store.js";
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 

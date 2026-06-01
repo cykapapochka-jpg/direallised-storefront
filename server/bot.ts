@@ -2,8 +2,8 @@ import { access } from "node:fs/promises";
 import path from "node:path";
 import { Markup, Telegraf } from "telegraf";
 import type { Context, Telegraf as TelegrafInstance } from "telegraf";
-import { normalizeCode, normalizeUsername, readStore, savePublicFile, updateStore } from "./store";
-import type { Product, ProductCategory, PromoCode, StoreData } from "./types";
+import { normalizeCode, normalizeUsername, readStore, savePublicFile, updateStore } from "./store.js";
+import type { Product, ProductCategory, PromoCode, StoreData } from "./types.js";
 
 type BotInstance = TelegrafInstance<Context>;
 

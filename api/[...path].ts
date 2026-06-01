@@ -1,5 +1,5 @@
-import { createApi } from "../server/api";
-import { createTelegramNotifier } from "../server/notifier";
+import { createApi } from "../server/api.js";
+import { createTelegramNotifier } from "../server/notifier.js";
 
 const app = createApi(createTelegramNotifier(process.env.TELEGRAM_BOT_TOKEN));
 

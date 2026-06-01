@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { createServer } from "node:http";
-import { createApi } from "./api";
-import { createTelegramNotifier } from "./notifier";
+import { createApi } from "./api.js";
+import { createTelegramNotifier } from "./notifier.js";
 
 const apiPort = Number(process.env.API_PORT || 8787);
 const app = createApi(createTelegramNotifier(process.env.TELEGRAM_BOT_TOKEN));

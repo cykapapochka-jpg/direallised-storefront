@@ -1,6 +1,6 @@
 import express from "express";
 import type { Request, Response } from "express";
-import { findPromo, readStore, updateStore } from "./store";
+import { findPromo, readStore, updateStore } from "./store.js";
 
 type NotifyOrder = (order: unknown) => Promise<void>;
 

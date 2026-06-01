@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import iconv from "iconv-lite";
-import type { PromoCode, StoreData } from "./types";
+import type { PromoCode, StoreData } from "./types.js";
 
 const rootDir = process.cwd();
 const dataDir = path.join(rootDir, "data");

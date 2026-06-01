@@ -48,6 +48,20 @@
     ],
     "products": [
       {
+        "id": "test",
+        "title": "test",
+        "price": 111,
+        "category": "jeans",
+        "fulfillment": "stock",
+        "sizes": [
+          "ONE SIZE"
+        ],
+        "images": [
+          "/uploads/test-1-1780353356220.jpg"
+        ],
+        "desc": "2222\n2222222222\n2222222222"
+      },
+      {
         "id": "drop-1780344265951",
         "title": "тест",
         "price": 1111,

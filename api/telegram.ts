@@ -1,5 +1,5 @@
-import { createBot } from "../server/bot";
-import { updateStore } from "../server/store";
+import { createBot } from "../server/bot.js";
+import { updateStore } from "../server/store.js";
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = token ? createBot(token) : null;

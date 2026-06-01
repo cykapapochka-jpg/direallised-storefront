@@ -1,5 +1,5 @@
 import { Telegraf } from "telegraf";
-import { notifyAdmins } from "./bot";
+import { notifyAdmins } from "./bot.js";
 
 let notifyClient: Telegraf | null = null;
 
