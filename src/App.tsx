@@ -83,11 +83,25 @@ export default function App() {
 
   useEffect(() => {
     let alive = true;
-    fetchCatalog().then((data) => {
+    const refreshCatalog = () => fetchCatalog().then((data) => {
       if (alive) setCatalogData(data);
     });
+    refreshCatalog();
+
+    const interval = window.setInterval(refreshCatalog, 10000);
+    const onFocus = () => void refreshCatalog();
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") void refreshCatalog();
+    };
+
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     return () => {
       alive = false;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, []);
 
