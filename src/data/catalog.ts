@@ -1,4 +1,4 @@
-import type { Category, CelebrityLook, Product } from "../types";
+import type { CatalogData, Category, CelebrityLook, Product } from "../types";
 
 export const productPhotos = [
   "/assets/look-01.jpg",
@@ -45,6 +45,7 @@ export const products: Product[] = [
     title: "Black Leather Patch Flared Jeans",
     price: 12000,
     category: "jeans",
+    fulfillment: "stock",
     sizes: ["ONE SIZE"],
     images: [
       productPhotos[2],
@@ -64,6 +65,13 @@ export const catalogCategories: Category[] = [
   { id: "all", label: "Все" },
   { id: "jeans", label: "Джинсы" },
 ];
+
+export const fallbackCatalog: CatalogData = {
+  products,
+  categories: catalogCategories,
+  catalogHeroPhotos,
+  celebrityLooks,
+};
 
 export function getProducts() {
   return products;

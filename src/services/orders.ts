@@ -1,4 +1,5 @@
 import type { CartLine, OrderFormData } from "../types";
+import { apiUrl } from "./api";
 
 export interface OrderPayload {
   items: CartLine[];
@@ -8,12 +9,7 @@ export interface OrderPayload {
 }
 
 export async function submitOrder(payload: OrderPayload) {
-  const endpoint = import.meta.env.VITE_ORDER_ENDPOINT as string | undefined;
-
-  if (!endpoint) {
-    console.info("Order endpoint is not configured yet. Payload for future bot API:", payload);
-    return { ok: true, mode: "local" as const };
-  }
+  const endpoint = (import.meta.env.VITE_ORDER_ENDPOINT as string | undefined) ?? apiUrl("/api/orders");
 
   const response = await fetch(endpoint, {
     method: "POST",

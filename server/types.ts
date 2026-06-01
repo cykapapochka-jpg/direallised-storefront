@@ -1,5 +1,4 @@
 export type CategoryId = "all" | "jeans";
-
 export type ProductCategory = Exclude<CategoryId, "all">;
 
 export interface Product {
@@ -11,11 +10,6 @@ export interface Product {
   sizes: string[];
   images: string[];
   desc: string;
-}
-
-export interface ProductRequestFormData {
-  telegram: string;
-  comment: string;
 }
 
 export interface Category {
@@ -43,23 +37,13 @@ export interface PromoCode {
   active: boolean;
 }
 
-export interface CartItem {
-  key: string;
-  id: string;
-  size: string;
-  qty: number;
-}
-
-export interface CartLine extends CartItem {
-  product: Product;
-  total: number;
-}
-
-export interface OrderFormData {
-  contact: string;
-  name: string;
-  phone: string;
-  city: string;
-  address: string;
-  comment: string;
+export interface StoreData {
+  version: number;
+  admins: {
+    telegramIds: number[];
+    usernames: string[];
+  };
+  catalog: CatalogData;
+  promocodes: PromoCode[];
+  orders: unknown[];
 }

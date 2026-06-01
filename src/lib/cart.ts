@@ -1,5 +1,5 @@
-import { products } from "../data/catalog";
-import type { CartItem, CartLine } from "../types";
+import { products as fallbackProducts } from "../data/catalog";
+import type { CartItem, CartLine, Product } from "../types";
 
 const CART_KEY = "direallised_cart";
 
@@ -15,7 +15,7 @@ export function saveCart(items: CartItem[]) {
   localStorage.setItem(CART_KEY, JSON.stringify(items));
 }
 
-export function addToCart(productId: string, size: string) {
+export function addToCart(productId: string, size: string, products: Product[] = fallbackProducts) {
   const product = products.find((item) => item.id === productId);
   if (!product) return getCart();
 
@@ -36,7 +36,7 @@ export function removeFromCart(key: string) {
   return cart;
 }
 
-export function cartLines(cart = getCart()): CartLine[] {
+export function cartLines(cart = getCart(), products: Product[] = fallbackProducts): CartLine[] {
   return cart
     .map((item) => {
       const product = products.find((entry) => entry.id === item.id);
@@ -45,11 +45,11 @@ export function cartLines(cart = getCart()): CartLine[] {
     .filter((item): item is CartLine => Boolean(item));
 }
 
-export function cartTotal(cart = getCart()) {
-  return cartLines(cart).reduce((sum, item) => sum + item.total, 0);
+export function cartTotal(cart = getCart(), products: Product[] = fallbackProducts) {
+  return cartLines(cart, products).reduce((sum, item) => sum + item.total, 0);
 }
 
-export function cartCount(cart = getCart()) {
+export function cartCount(cart = getCart(), products: Product[] = fallbackProducts) {
   return cart
     .filter((item) => products.some((product) => product.id === item.id))
     .reduce((sum, item) => sum + item.qty, 0);

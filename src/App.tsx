@@ -1,9 +1,11 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
-import { catalogCategories, catalogHeroPhotos, celebrityLooks, getProductById, productPhotos, products } from "./data/catalog";
+import { fallbackCatalog, productPhotos } from "./data/catalog";
 import { addToCart, cartCount, cartLines, getCart, removeFromCart, saveCart } from "./lib/cart";
 import { money } from "./lib/money";
+import { fetchCatalog, fetchPromo } from "./services/api";
 import { submitOrder } from "./services/orders";
-import type { CartItem, CartLine, CategoryId, OrderFormData, Product } from "./types";
+import { submitProductRequest } from "./services/requests";
+import type { CartItem, CartLine, CatalogData, CategoryId, OrderFormData, Product, ProductRequestFormData } from "./types";
 
 type Route =
   | { page: "home" }
@@ -27,7 +29,9 @@ function parseRoute(hash: string): Route {
 export default function App() {
   const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
   const [cart, setCart] = useState<CartItem[]>(() => getCart());
+  const [catalogData, setCatalogData] = useState<CatalogData>(fallbackCatalog);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [requestProduct, setRequestProduct] = useState<Product | null>(null);
   const [loaderVisible, setLoaderVisible] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState<"enter" | "exit">("enter");
   const routeRef = useRef<Route>(route);
@@ -77,7 +81,17 @@ export default function App() {
     };
   }, []);
 
-  const lines = useMemo(() => cartLines(cart), [cart]);
+  useEffect(() => {
+    let alive = true;
+    fetchCatalog().then((data) => {
+      if (alive) setCatalogData(data);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const lines = useMemo(() => cartLines(cart, catalogData.products), [cart, catalogData.products]);
 
   function syncCart(nextCart: CartItem[]) {
     saveCart(nextCart);
@@ -85,7 +99,11 @@ export default function App() {
   }
 
   function handleAddToCart(productId: string, size: string) {
-    setCart(addToCart(productId, size));
+    setCart(addToCart(productId, size, catalogData.products));
+  }
+
+  function handleOpenRequest(product: Product) {
+    setRequestProduct(product);
   }
 
   function handleRemoveFromCart(key: string) {
@@ -98,20 +116,25 @@ export default function App() {
 
   return (
     <>
-      <Header count={cartCount(cart)} />
+      <Header count={cartCount(cart, catalogData.products)} />
       <main className={route.page === "home" ? "page home-page" : route.page === "shop" ? "page shop-page" : "page"}>
-        {route.page === "home" && <HomePage onAddToCart={handleAddToCart} />}
-        {route.page === "shop" && <ShopPage category={route.category} onAddToCart={handleAddToCart} />}
-        {route.page === "product" && <ProductPage id={route.id} onAddToCart={handleAddToCart} />}
+        {route.page === "home" && <HomePage catalogData={catalogData} onAddToCart={handleAddToCart} onRequest={handleOpenRequest} />}
+        {route.page === "shop" && (
+          <ShopPage catalogData={catalogData} category={route.category} onAddToCart={handleAddToCart} onRequest={handleOpenRequest} />
+        )}
+        {route.page === "product" && (
+          <ProductPage catalogData={catalogData} id={route.id} onAddToCart={handleAddToCart} onRequest={handleOpenRequest} />
+        )}
         {route.page === "cart" && <CartPage lines={lines} onRemove={handleRemoveFromCart} onCheckout={() => setIsOrderOpen(true)} />}
       </main>
-      <Footer />
+      <Footer products={catalogData.products} />
       <OrderModal
         isOpen={isOrderOpen}
         lines={lines}
         onClose={() => setIsOrderOpen(false)}
         onOrderComplete={handleOrderComplete}
       />
+      <ProductRequestModal product={requestProduct} onClose={() => setRequestProduct(null)} />
       {loaderVisible && <PageLoader phase={loaderPhase} />}
     </>
   );
@@ -146,7 +169,16 @@ function Header({ count }: { count: number }) {
   );
 }
 
-function HomePage({ onAddToCart }: { onAddToCart: (productId: string, size: string) => void }) {
+function HomePage({
+  catalogData,
+  onAddToCart,
+  onRequest,
+}: {
+  catalogData: CatalogData;
+  onAddToCart: (productId: string, size: string) => void;
+  onRequest: (product: Product) => void;
+}) {
+  const { celebrityLooks, products } = catalogData;
   return (
     <>
       <section className="hero">
@@ -181,7 +213,7 @@ function HomePage({ onAddToCart }: { onAddToCart: (productId: string, size: stri
         <span>{products.length} ТОВАР</span>
         <span>DROP 001</span>
       </section>
-      <ProductGrid items={products} onAddToCart={onAddToCart} />
+      <ProductGrid items={products} onAddToCart={onAddToCart} onRequest={onRequest} />
 
       <section className="star-index">
         <div className="star-copy">
@@ -213,7 +245,18 @@ function HomePage({ onAddToCart }: { onAddToCart: (productId: string, size: stri
   );
 }
 
-function ShopPage({ category, onAddToCart }: { category: CategoryId; onAddToCart: (productId: string, size: string) => void }) {
+function ShopPage({
+  catalogData,
+  category,
+  onAddToCart,
+  onRequest,
+}: {
+  catalogData: CatalogData;
+  category: CategoryId;
+  onAddToCart: (productId: string, size: string) => void;
+  onRequest: (product: Product) => void;
+}) {
+  const { categories: catalogCategories, catalogHeroPhotos, products } = catalogData;
   const activeCategory = catalogCategories.some((item) => item.id === category) ? category : "all";
   const activeLabel = catalogCategories.find((item) => item.id === activeCategory)?.label ?? "Все";
   const visibleProducts = activeCategory === "all" ? products : products.filter((product) => product.category === activeCategory);
@@ -252,7 +295,7 @@ function ShopPage({ category, onAddToCart }: { category: CategoryId; onAddToCart
         <span>{activeLabel}</span>
       </section>
       {visibleProducts.length ? (
-        <ProductGrid items={visibleProducts} onAddToCart={onAddToCart} />
+        <ProductGrid items={visibleProducts} onAddToCart={onAddToCart} onRequest={onRequest} />
       ) : (
         <section className="empty-category">
           <p>— В ЭТОЙ КАТЕГОРИИ ПОКА НЕТ ТОВАРОВ —</p>
@@ -262,7 +305,15 @@ function ShopPage({ category, onAddToCart }: { category: CategoryId; onAddToCart
   );
 }
 
-function ProductGrid({ items, onAddToCart }: { items: Product[]; onAddToCart: (productId: string, size: string) => void }) {
+function ProductGrid({
+  items,
+  onAddToCart,
+  onRequest,
+}: {
+  items: Product[];
+  onAddToCart: (productId: string, size: string) => void;
+  onRequest: (product: Product) => void;
+}) {
   return (
     <section className="grid single-grid">
       {items.map((product) => (
@@ -280,10 +331,11 @@ function ProductGrid({ items, onAddToCart }: { items: Product[]; onAddToCart: (p
             type="button"
             onClick={(event) => {
               event.stopPropagation();
-              onAddToCart(product.id, product.sizes[0]);
+              if (product.fulfillment === "preorder") onRequest(product);
+              else onAddToCart(product.id, product.sizes[0]);
             }}
           >
-            + В КОРЗИНУ
+            {product.fulfillment === "preorder" ? "ОФОРМИТЬ ЗАЯВКУ" : "+ В КОРЗИНУ"}
           </button>
         </article>
       ))}
@@ -291,8 +343,18 @@ function ProductGrid({ items, onAddToCart }: { items: Product[]; onAddToCart: (p
   );
 }
 
-function ProductPage({ id, onAddToCart }: { id: string; onAddToCart: (productId: string, size: string) => void }) {
-  const product = getProductById(id);
+function ProductPage({
+  catalogData,
+  id,
+  onAddToCart,
+  onRequest,
+}: {
+  catalogData: CatalogData;
+  id: string;
+  onAddToCart: (productId: string, size: string) => void;
+  onRequest: (product: Product) => void;
+}) {
+  const product = catalogData.products.find((item) => item.id === id) ?? catalogData.products[0] ?? fallbackCatalog.products[0];
   const [pickedSize, setPickedSize] = useState(product.sizes[0]);
   const [activePhoto, setActivePhoto] = useState(0);
   const [added, setAdded] = useState(false);
@@ -355,12 +417,16 @@ function ProductPage({ id, onAddToCart }: { id: string; onAddToCart: (productId:
           type="button"
           disabled={added}
           onClick={() => {
+            if (product.fulfillment === "preorder") {
+              onRequest(product);
+              return;
+            }
             onAddToCart(product.id, pickedSize);
             setAdded(true);
             window.setTimeout(() => setAdded(false), 1100);
           }}
         >
-          {added ? "ДОБАВЛЕНО В КОРЗИНУ" : "ДОБАВИТЬ В КОРЗИНУ"}
+          {product.fulfillment === "preorder" ? "ОФОРМИТЬ ЗАЯВКУ" : added ? "ДОБАВЛЕНО В КОРЗИНУ" : "ДОБАВИТЬ В КОРЗИНУ"}
         </button>
         <div className="product-meta">
           <div>
@@ -456,17 +522,22 @@ function OrderModal({
     setOrderState("");
   }, [isOpen]);
 
-  function applyPromo() {
+  async function applyPromo() {
     const code = promo.trim().toUpperCase();
-    if (code === "DIRE10") {
-      setDiscount(Math.round(subtotal * 0.1));
-      setPromoStatus("ПРОМОКОД ПРИМЕНЕН");
-    } else if (code) {
-      setDiscount(0);
-      setPromoStatus("ПРОМОКОД НЕ НАЙДЕН");
-    } else {
+    if (!code) {
       setDiscount(0);
       setPromoStatus("");
+      return;
+    }
+
+    const promoData = await fetchPromo(code);
+    if (promoData) {
+      const nextDiscount = promoData.type === "percent" ? Math.round(subtotal * (promoData.value / 100)) : promoData.value;
+      setDiscount(Math.min(subtotal, nextDiscount));
+      setPromoStatus("ПРОМОКОД ПРИМЕНЕН");
+    } else {
+      setDiscount(0);
+      setPromoStatus("ПРОМОКОД НЕ НАЙДЕН");
     }
   }
 
@@ -474,9 +545,14 @@ function OrderModal({
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const customer = Object.fromEntries(formData.entries()) as unknown as OrderFormData;
-    await submitOrder({ items: lines, total, discount, customer });
-    setOrderState("ЗАКАЗ СОБРАН. МЫ СВЯЖЕМСЯ С ВАМИ.");
-    onOrderComplete();
+    setOrderState("ОТПРАВЛЯЕМ ЗАКАЗ...");
+    try {
+      await submitOrder({ items: lines, total, discount, customer });
+      setOrderState("ЗАКАЗ СОБРАН. МЫ СВЯЖЕМСЯ С ВАМИ.");
+      onOrderComplete();
+    } catch {
+      setOrderState("НЕ УДАЛОСЬ ОТПРАВИТЬ ЗАКАЗ. ПРОВЕРЬТЕ, ЧТО API И БОТ ЗАПУЩЕНЫ.");
+    }
   }
 
   return (
@@ -502,7 +578,7 @@ function OrderModal({
           <h4>ПРОМОКОД</h4>
           <div className="promo-row">
             <input value={promo} onChange={(event) => setPromo(event.target.value)} autoComplete="off" placeholder="ВВЕДИТЕ ПРОМОКОД" />
-            <button type="button" onClick={applyPromo}>
+            <button type="button" onClick={() => void applyPromo()}>
               ПРИМЕНИТЬ
             </button>
           </div>
@@ -555,7 +631,68 @@ function OrderModal({
   );
 }
 
-function Footer() {
+function ProductRequestModal({ product, onClose }: { product: Product | null; onClose: () => void }) {
+  const [requestState, setRequestState] = useState("");
+  const isOpen = Boolean(product);
+
+  useEffect(() => {
+    if (isOpen) setRequestState("");
+  }, [isOpen, product?.id]);
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (!product) return;
+    const formData = new FormData(form);
+    const customer = Object.fromEntries(formData.entries()) as unknown as ProductRequestFormData;
+    setRequestState("ОТПРАВЛЯЕМ ЗАЯВКУ...");
+    try {
+      await submitProductRequest({ product, customer });
+      setRequestState("ЗАЯВКА ОТПРАВЛЕНА. МЫ СВЯЖЕМСЯ С ВАМИ В TELEGRAM.");
+      form.reset();
+    } catch {
+      setRequestState("НЕ УДАЛОСЬ ОТПРАВИТЬ ЗАЯВКУ. ПРОВЕРЬТЕ, ЧТО API И БОТ ЗАПУЩЕНЫ.");
+    }
+  }
+
+  return (
+    <div className={`modal-overlay ${isOpen ? "is-open" : ""}`} aria-hidden={!isOpen} onClick={(event) => event.target === event.currentTarget && onClose()}>
+      <section className="modal request-modal" role="dialog" aria-modal="true" aria-labelledby="request-title">
+        <button className="close-modal" type="button" aria-label="Закрыть" onClick={onClose}>
+          ×
+        </button>
+        <h2 id="request-title">Оформить заявку.</h2>
+        {product && (
+          <>
+            <div className="modal-sub">
+              {product.title} / {money(product.price)}
+            </div>
+            <form className="order-form" onSubmit={onSubmit}>
+              <h4>КОНТАКТ ДЛЯ СВЯЗИ</h4>
+              <label>
+                <span>TELEGRAM</span>
+                <input name="telegram" placeholder="@username" required />
+              </label>
+              <label>
+                <span>КОММЕНТАРИЙ</span>
+                <textarea name="comment" rows={4} placeholder="Размер, пожелания, вопрос по позиции" />
+              </label>
+              <button className="confirm-order" type="submit">
+                ОТПРАВИТЬ ЗАЯВКУ
+              </button>
+              <div className="order-state" aria-live="polite">
+                {requestState}
+              </div>
+            </form>
+          </>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function Footer({ products }: { products: Product[] }) {
+  const firstProduct = products[0];
   return (
     <footer className="site-footer">
       <div className="footer-mark footer-logo">
@@ -564,7 +701,7 @@ function Footer() {
       <div className="footer-col">
         <h4>КАТАЛОГ</h4>
         <a href="#/shop">Drop 001</a>
-        <a href="#/product/BLPFJ">Black Leather Patch Flared Jeans</a>
+        {firstProduct && <a href={`#/product/${firstProduct.id}`}>{firstProduct.title}</a>}
       </div>
       <div className="footer-col">
         <h4>ИНФОРМАЦИЯ</h4>

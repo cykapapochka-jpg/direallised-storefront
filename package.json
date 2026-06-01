@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "dev:api": "tsx server/api-server.ts",
+    "dev:bot": "tsx server/bot-server.ts",
+    "dev:server": "concurrently -n API,BOT -c cyan,magenta \"npm:dev:api\" \"npm:dev:bot\"",
+    "dev:full": "concurrently -n SITE,API,BOT -c white,cyan,magenta \"npm:dev\" \"npm:dev:api\" \"npm:dev:bot\"",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1"
   },
@@ -12,13 +16,21 @@
     "@fontsource/pirata-one": "^5.2.8",
     "@fontsource/unifrakturcook": "^5.2.8",
     "@vitejs/plugin-react": "^5.1.1",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "iconv-lite": "^0.7.2",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
+    "telegraf": "^4.16.3",
     "typescript": "^5.9.3",
     "vite": "^7.2.6"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.1",
     "@types/react": "^19.2.7",
-    "@types/react-dom": "^19.2.3"
+    "@types/react-dom": "^19.2.3",
+    "concurrently": "^10.0.1",
+    "tsx": "^4.22.4"
   }
 }
