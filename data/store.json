@@ -48,6 +48,21 @@
     ],
     "products": [
       {
+        "id": "drop-1780357073284",
+        "title": "тести",
+        "price": 9999,
+        "category": "jeans",
+        "fulfillment": "preorder",
+        "sizes": [
+          "M"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357073284-1-1780357126050.jpg",
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357073284-2-1780357130913.jpg"
+        ],
+        "desc": "тест\ntest\nasabdhasbdhbjasdh"
+      },
+      {
         "id": "1112",
         "title": "1112",
         "price": 2221,
