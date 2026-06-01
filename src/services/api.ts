@@ -1,10 +1,17 @@
 import { fallbackCatalog } from "../data/catalog";
 import type { CatalogData, PromoCode } from "../types";
 
+export function isLocalHost() {
+  return typeof window !== "undefined" && ["127.0.0.1", "localhost"].includes(window.location.hostname);
+}
+
+function isLocalApiBase(value?: string) {
+  return Boolean(value && /127\.0\.0\.1|localhost/.test(value));
+}
+
 const configuredApiBase = import.meta.env.VITE_API_BASE as string | undefined;
-const localApiBase =
-  typeof window !== "undefined" && ["127.0.0.1", "localhost"].includes(window.location.hostname) ? "http://127.0.0.1:8787" : "";
-const API_BASE = configuredApiBase ?? localApiBase;
+const localApiBase = isLocalHost() ? "http://127.0.0.1:8787" : "";
+const API_BASE = configuredApiBase && !(isLocalApiBase(configuredApiBase) && !isLocalHost()) ? configuredApiBase : localApiBase;
 
 export async function fetchCatalog(): Promise<CatalogData> {
   try {

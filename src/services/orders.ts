@@ -1,5 +1,5 @@
 import type { CartLine, OrderFormData } from "../types";
-import { apiUrl } from "./api";
+import { apiUrl, isLocalHost } from "./api";
 
 export interface OrderPayload {
   items: CartLine[];
@@ -9,7 +9,8 @@ export interface OrderPayload {
 }
 
 export async function submitOrder(payload: OrderPayload) {
-  const endpoint = (import.meta.env.VITE_ORDER_ENDPOINT as string | undefined) ?? apiUrl("/api/orders");
+  const configuredEndpoint = import.meta.env.VITE_ORDER_ENDPOINT as string | undefined;
+  const endpoint = configuredEndpoint && (isLocalHost() || !/127\.0\.0\.1|localhost/.test(configuredEndpoint)) ? configuredEndpoint : apiUrl("/api/orders");
 
   const response = await fetch(endpoint, {
     method: "POST",
