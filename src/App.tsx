@@ -821,6 +821,25 @@ function SuccessModal({ type, onClose }: { type: "order" | "request" | null; onC
   );
 }
 
+function SocialIcon({ name }: { name: "instagram" | "telegram" }) {
+  if (name === "instagram") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4.5" y="4.5" width="15" height="15" rx="4.2" />
+        <circle cx="12" cy="12" r="3.4" />
+        <path d="M16.7 7.4h.1" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M20.5 4.8 3.8 11.4l6.3 2.2 2.3 6.1 3.2-4.2 4.8-10.7Z" />
+      <path d="m10.1 13.6 5.5-5.1" />
+    </svg>
+  );
+}
+
 function Footer({ products }: { products: Product[] }) {
   const firstProduct = products[0];
   return (
@@ -840,8 +859,23 @@ function Footer({ products }: { products: Product[] }) {
       </div>
       <div className="footer-col">
         <h4>КОНТАКТЫ</h4>
-        <a href="https://t.me/" target="_blank" rel="noreferrer">
-          ТГ -&gt; @direallised
+        <a className="social-link" href="https://www.instagram.com/direallised/" target="_blank" rel="noreferrer">
+          <span className="social-icon">
+            <SocialIcon name="instagram" />
+          </span>
+          <span>Instagram</span>
+        </a>
+        <a className="social-link" href="https://t.me/direallised" target="_blank" rel="noreferrer">
+          <span className="social-icon">
+            <SocialIcon name="telegram" />
+          </span>
+          <span>Telegram channel</span>
+        </a>
+        <a className="social-link" href="https://t.me/sukkui0" target="_blank" rel="noreferrer">
+          <span className="social-icon">
+            <SocialIcon name="telegram" />
+          </span>
+          <span>Manager / @sukkui0</span>
         </a>
       </div>
       <div className="footer-base">
