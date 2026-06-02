@@ -48,6 +48,20 @@
     ],
     "products": [
       {
+        "id": "555",
+        "title": "555",
+        "price": 5666,
+        "category": "jeans",
+        "fulfillment": "stock",
+        "sizes": [
+          "M"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/555-1-1780411764374.jpg"
+        ],
+        "desc": "gghghgghh"
+      },
+      {
         "id": "drop-1780357168118",
         "title": "тест",
         "price": 7777,
