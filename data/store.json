@@ -127,14 +127,7 @@
       }
     ]
   },
-  "promocodes": [
-    {
-      "code": "DIRET",
-      "type": "percent",
-      "value": 55,
-      "active": true
-    }
-  ],
+  "promocodes": [],
   "orders": [],
   "botSessions": {}
 }
