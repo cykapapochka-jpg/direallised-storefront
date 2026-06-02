@@ -99,6 +99,7 @@ export default function App() {
   const [catalogData, setCatalogData] = useState<CatalogData>(fallbackCatalog);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [requestProduct, setRequestProduct] = useState<Product | null>(null);
+  const [successModal, setSuccessModal] = useState<"order" | "request" | null>(null);
   const [loaderVisible, setLoaderVisible] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState<"enter" | "exit">("enter");
   const routeRef = useRef<Route>(route);
@@ -193,6 +194,13 @@ export default function App() {
 
   function handleOrderComplete() {
     syncCart([]);
+    setIsOrderOpen(false);
+    setSuccessModal("order");
+  }
+
+  function handleRequestComplete() {
+    setRequestProduct(null);
+    setSuccessModal("request");
   }
 
   return (
@@ -215,7 +223,8 @@ export default function App() {
         onClose={() => setIsOrderOpen(false)}
         onOrderComplete={handleOrderComplete}
       />
-      <ProductRequestModal product={requestProduct} onClose={() => setRequestProduct(null)} />
+      <ProductRequestModal product={requestProduct} onClose={() => setRequestProduct(null)} onRequestComplete={handleRequestComplete} />
+      <SuccessModal type={successModal} onClose={() => setSuccessModal(null)} />
       {loaderVisible && <PageLoader phase={loaderPhase} />}
     </>
   );
@@ -714,7 +723,15 @@ function OrderModal({
   );
 }
 
-function ProductRequestModal({ product, onClose }: { product: Product | null; onClose: () => void }) {
+function ProductRequestModal({
+  product,
+  onClose,
+  onRequestComplete,
+}: {
+  product: Product | null;
+  onClose: () => void;
+  onRequestComplete: () => void;
+}) {
   const [requestState, setRequestState] = useState("");
   const isOpen = Boolean(product);
 
@@ -731,8 +748,8 @@ function ProductRequestModal({ product, onClose }: { product: Product | null; on
     setRequestState("ОТПРАВЛЯЕМ ЗАЯВКУ...");
     try {
       await submitProductRequest({ product, customer });
-      setRequestState("ЗАЯВКА ОТПРАВЛЕНА. МЫ СВЯЖЕМСЯ С ВАМИ В TELEGRAM.");
       form.reset();
+      onRequestComplete();
     } catch {
       setRequestState("НЕ УДАЛОСЬ ОТПРАВИТЬ ЗАЯВКУ. ПРОВЕРЬТЕ, ЧТО API И БОТ ЗАПУЩЕНЫ.");
     }
@@ -769,6 +786,36 @@ function ProductRequestModal({ product, onClose }: { product: Product | null; on
             </form>
           </>
         )}
+      </section>
+    </div>
+  );
+}
+
+function SuccessModal({ type, onClose }: { type: "order" | "request" | null; onClose: () => void }) {
+  const isOpen = Boolean(type);
+  const title = type === "order" ? "Заказ принят" : "Заявка отправлена";
+
+  return (
+    <div className={`modal-overlay success-overlay ${isOpen ? "is-open" : ""}`} aria-hidden={!isOpen} onClick={(event) => event.target === event.currentTarget && onClose()}>
+      <section className="modal success-modal" role="dialog" aria-modal="true" aria-labelledby="success-title">
+        <button className="close-modal" type="button" aria-label="Закрыть" onClick={onClose}>
+          ×
+        </button>
+        <div className="success-check" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <circle className="success-check-ring" cx="60" cy="60" r="48" />
+            <path className="success-check-mark" d="M37 61.5 52.4 76.8 84.5 43.5" />
+          </svg>
+        </div>
+        <div className="success-kicker">Direallised / request accepted</div>
+        <h2 id="success-title">{title}</h2>
+        <p>
+          Спасибо за обращение. В ближайшее время менеджер свяжется с вами и уточнит детали. Если хотите ускорить процесс,
+          напишите напрямую в Telegram: <a href="https://t.me/sukkui0" target="_blank" rel="noreferrer">@sukkui0</a>.
+        </p>
+        <button className="success-action" type="button" onClick={onClose}>
+          ПОНЯТНО
+        </button>
       </section>
     </div>
   );
