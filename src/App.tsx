@@ -833,10 +833,7 @@ function SocialIcon({ name }: { name: "instagram" | "telegram" }) {
   }
 
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20.5 4.8 3.8 11.4l6.3 2.2 2.3 6.1 3.2-4.2 4.8-10.7Z" />
-      <path d="m10.1 13.6 5.5-5.1" />
-    </svg>
+    <img src="/assets/telegram-svgrepo-com.svg" alt="" aria-hidden="true" />
   );
 }
 
