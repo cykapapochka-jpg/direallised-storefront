@@ -1,132 +1,141 @@
 {
-  "version": 1,
-  "admins": {
-    "telegramIds": [
-      97162873
-    ],
-    "usernames": [
-      "sukkui0"
-    ]
-  },
-  "catalog": {
-    "categories": [
-      {
-        "id": "all",
-        "label": "Все"
-      },
-      {
-        "id": "jeans",
-        "label": "Джинсы"
-      }
-    ],
-    "catalogHeroPhotos": [
-      "/assets/catalog-01.jpg",
-      "/assets/catalog-02.jpg",
-      "/assets/catalog-03.jpg"
-    ],
-    "celebrityLooks": [
-      {
-        "name": "",
-        "image": "/assets/star-look-01.jpg",
-        "showText": false
-      },
-      {
-        "name": "",
-        "image": "/assets/star-prince.jpg",
-        "showText": false
-      },
-      {
-        "name": "",
-        "image": "/assets/star-look-03.jpg",
-        "showText": false
-      },
-      {
-        "name": "",
-        "image": "/assets/star-after.jpg",
-        "showText": false
-      }
-    ],
-    "products": [
-      {
-        "id": "drop-1780357168118",
-        "title": "тест",
-        "price": 7777,
-        "category": "jeans",
-        "fulfillment": "stock",
-        "sizes": [
-          "XL"
-        ],
-        "images": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357168118-1-1780357189770.jpg"
-        ],
-        "desc": "testttasfbrsahdbjsabjhdahjs\nasdjsajhdasjhdhbajsd"
-      },
-      {
-        "id": "drop-1780357073284",
-        "title": "тести",
-        "price": 9999,
-        "category": "jeans",
-        "fulfillment": "preorder",
-        "sizes": [
-          "M"
-        ],
-        "images": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357073284-1-1780357126050.jpg",
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357073284-2-1780357130913.jpg"
-        ],
-        "desc": "тест\ntest\nasabdhasbdhbjasdh"
-      },
-      {
-        "id": "1112",
-        "title": "1112",
-        "price": 2221,
-        "category": "jeans",
-        "fulfillment": "stock",
-        "sizes": [
-          "M"
-        ],
-        "images": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1112-1-1780354437717.jpg"
-        ],
-        "desc": "222\n2222222\n111111111"
-      },
-      {
-        "id": "drop-1780344265951",
-        "title": "тест",
-        "price": 1111,
-        "category": "jeans",
-        "fulfillment": "preorder",
-        "sizes": [
-          "ONE SIZE",
-          "M"
-        ],
-        "images": [
-          "/uploads/drop-1780344265951-1-1780344289177.jpg"
-        ],
-        "desc": "21123213123"
-      },
-      {
-        "id": "BLPFJ",
-        "title": "Black Leather Patch Flared Jeans",
-        "price": 12000,
-        "category": "jeans",
-        "sizes": [
-          "ONE SIZE"
-        ],
-        "images": [
-          "/uploads/BLPFJ-1-1780339973858.jpg",
-          "/assets/wax-waist.jpg",
-          "/assets/wax-detail.jpg",
-          "/assets/wax-back.jpg",
-          "/assets/look-01.jpg",
-          "/assets/look-02.jpg",
-          "/assets/look-03.jpg"
-        ],
-        "desc": "Прокрашивание в несколько слоев с серебрянным напылением, скини клеш фит, множество фурнитуры и деталей сделанных вручную.\nВставки и подкладки из натуральной кожи.\nНа шнуровке с регулировкой талии. В ЕДИНСТВЕННОМ ЭКЗЕМПЛЯРЕ.",
-        "fulfillment": "stock"
-      }
-    ]
-  },
-  "promocodes": [],
-  "orders": []
+    "version":  1,
+    "admins":  {
+                   "telegramIds":  [
+                                       97162873
+                                   ],
+                   "usernames":  [
+                                     "sukkui0"
+                                 ]
+               },
+    "catalog":  {
+                    "categories":  [
+                                       {
+                                           "id":  "all",
+                                           "label":  "Все"
+                                       },
+                                       {
+                                           "id":  "jeans",
+                                           "label":  "Джинсы"
+                                       }
+                                   ],
+                    "catalogHeroPhotos":  [
+                                              "/assets/catalog-01.jpg",
+                                              "/assets/catalog-02.jpg",
+                                              "/assets/catalog-03.jpg"
+                                          ],
+                    "celebrityLooks":  [
+                                           {
+                                               "name":  "",
+                                               "image":  "/assets/star-look-01.jpg",
+                                               "showText":  false
+                                           },
+                                           {
+                                               "name":  "",
+                                               "image":  "/assets/star-prince.jpg",
+                                               "showText":  false
+                                           },
+                                           {
+                                               "name":  "",
+                                               "image":  "/assets/star-look-03.jpg",
+                                               "showText":  false
+                                           },
+                                           {
+                                               "name":  "",
+                                               "image":  "/assets/star-after.jpg",
+                                               "showText":  false
+                                           }
+                                       ],
+                    "products":  [
+                                     {
+                                         "id":  "drop-1780357168118",
+                                         "title":  "тест",
+                                         "price":  7777,
+                                         "category":  "jeans",
+                                         "fulfillment":  "stock",
+                                         "sizes":  [
+                                                       "XL"
+                                                   ],
+                                         "images":  [
+                                                        "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357168118-1-1780357189770.jpg"
+                                                    ],
+                                         "desc":  "testttasfbrsahdbjsabjhdahjs\nasdjsajhdasjhdhbajsd"
+                                     },
+                                     {
+                                         "id":  "drop-1780357073284",
+                                         "title":  "тести",
+                                         "price":  9999,
+                                         "category":  "jeans",
+                                         "fulfillment":  "preorder",
+                                         "sizes":  [
+                                                       "M"
+                                                   ],
+                                         "images":  [
+                                                        "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357073284-1-1780357126050.jpg",
+                                                        "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780357073284-2-1780357130913.jpg"
+                                                    ],
+                                         "desc":  "тест\ntest\nasabdhasbdhbjasdh"
+                                     },
+                                     {
+                                         "id":  "1112",
+                                         "title":  "1112",
+                                         "price":  2221,
+                                         "category":  "jeans",
+                                         "fulfillment":  "stock",
+                                         "sizes":  [
+                                                       "M"
+                                                   ],
+                                         "images":  [
+                                                        "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1112-1-1780354437717.jpg"
+                                                    ],
+                                         "desc":  "222\n2222222\n111111111"
+                                     },
+                                     {
+                                         "id":  "drop-1780344265951",
+                                         "title":  "тест",
+                                         "price":  1111,
+                                         "category":  "jeans",
+                                         "fulfillment":  "preorder",
+                                         "sizes":  [
+                                                       "ONE SIZE",
+                                                       "M"
+                                                   ],
+                                         "images":  [
+                                                        "/uploads/drop-1780344265951-1-1780344289177.jpg"
+                                                    ],
+                                         "desc":  "21123213123"
+                                     },
+                                     {
+                                         "id":  "BLPFJ",
+                                         "title":  "Black Leather Patch Flared Jeans",
+                                         "price":  12000,
+                                         "category":  "jeans",
+                                         "sizes":  [
+                                                       "ONE SIZE"
+                                                   ],
+                                         "images":  [
+                                                        "/uploads/BLPFJ-1-1780339973858.jpg",
+                                                        "/assets/wax-waist.jpg",
+                                                        "/assets/wax-detail.jpg",
+                                                        "/assets/wax-back.jpg",
+                                                        "/assets/look-01.jpg",
+                                                        "/assets/look-02.jpg",
+                                                        "/assets/look-03.jpg"
+                                                    ],
+                                         "desc":  "Прокрашивание в несколько слоев с серебрянным напылением, скини клеш фит, множество фурнитуры и деталей сделанных вручную.\nВставки и подкладки из натуральной кожи.\nНа шнуровке с регулировкой талии. В ЕДИНСТВЕННОМ ЭКЗЕМПЛЯРЕ.",
+                                         "fulfillment":  "stock"
+                                     }
+                                 ]
+                },
+    "promocodes":  [
+                       {
+                           "code":  "CODEXTEST",
+                           "type":  "percent",
+                           "value":  7,
+                           "active":  true
+                       }
+                   ],
+    "orders":  [
+
+               ]
 }
