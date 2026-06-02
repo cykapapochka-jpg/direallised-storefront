@@ -136,16 +136,5 @@
     }
   ],
   "orders": [],
-  "botSessions": {
-    "97162873": {
-      "mode": "promo:value",
-      "draft": {
-        "promo": {
-          "code": "DIRET",
-          "type": "percent",
-          "active": true
-        }
-      }
-    }
-  }
+  "botSessions": {}
 }
