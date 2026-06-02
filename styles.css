@@ -343,12 +343,7 @@ button {
 .hero-cta {
   width: min(440px, 100%);
   justify-self: start;
-  border-color: rgba(244, 241, 234, 0.72);
-  background:
-    linear-gradient(90deg, rgba(244, 241, 234, 0.9), rgba(201, 190, 165, 0.82)),
-    var(--ink);
-  color: #070807;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
+  margin-top: 8px;
 }
 
 .hero-rail {
@@ -389,23 +384,48 @@ button {
 
 .hero-cta:hover {
   border-color: rgba(244, 241, 234, 0.92);
-  background: #f4f1ea;
-  color: #070807;
+  background: transparent;
+  color: #080807;
 }
 
 .btn-ghost.hero-cta {
-  border-color: rgba(244, 241, 234, 0.72);
-  background:
-    linear-gradient(90deg, rgba(244, 241, 234, 0.9), rgba(201, 190, 165, 0.82)),
-    var(--ink);
-  color: #070807;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(244, 241, 234, 0.7);
+  background: rgba(5, 5, 4, 0.14);
+  color: rgba(244, 241, 234, 0.92);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.34),
+    inset 0 0 0 1px rgba(244, 241, 234, 0.08);
+  transition:
+    color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.btn-ghost.hero-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(244, 241, 234, 0.96), rgba(201, 190, 165, 0.9));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .btn-ghost.hero-cta:hover {
   border-color: rgba(244, 241, 234, 0.92);
-  background: #f4f1ea;
+  background: rgba(5, 5, 4, 0.1);
   color: #070807;
+  box-shadow:
+    0 20px 58px rgba(0, 0, 0, 0.42),
+    0 0 30px rgba(244, 241, 234, 0.12);
+  transform: translateY(-1px);
+}
+
+.btn-ghost.hero-cta:hover::before {
+  transform: scaleX(1);
 }
 
 .drop-note {
