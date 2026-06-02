@@ -127,7 +127,14 @@
       }
     ]
   },
-  "promocodes": [],
+  "promocodes": [
+    {
+      "code": "DIRET",
+      "type": "percent",
+      "value": 55,
+      "active": true
+    }
+  ],
   "orders": [],
   "botSessions": {
     "97162873": {
