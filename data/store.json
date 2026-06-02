@@ -131,9 +131,10 @@
   "orders": [],
   "botSessions": {
     "97162873": {
-      "mode": "promo:code",
+      "mode": "promo:type",
       "draft": {
         "promo": {
+          "code": "DIRET",
           "type": "percent",
           "active": true
         }
