@@ -128,12 +128,7 @@
                                  ]
                 },
     "promocodes":  [
-                       {
-                           "code":  "CODEXTEST",
-                           "type":  "percent",
-                           "value":  7,
-                           "active":  true
-                       }
+
                    ],
     "orders":  [
 
