@@ -211,7 +211,7 @@ function HomePage({
           <div className="drop-note eyebrow">SS / 26 - ARTIFACT 001</div>
           <h1 className="hero-logo">Direallised</h1>
           <a className="btn-ghost hero-cta" href="#/shop">
-            СМОТРЕТЬ КАТАЛОГ -&gt;
+            <span>СМОТРЕТЬ КАТАЛОГ -&gt;</span>
           </a>
         </div>
       </section>
