@@ -13,6 +13,15 @@ type Route =
   | { page: "product"; id: string }
   | { page: "cart" };
 
+type SignalIconName = "archive" | "delivery" | "custom" | "handmade";
+
+const signalItems: Array<{ icon: SignalIconName; label: string }> = [
+  { icon: "archive", label: "archive clothing" },
+  { icon: "delivery", label: "доставка по РФ" },
+  { icon: "custom", label: "изделия под заказ" },
+  { icon: "handmade", label: "ручная работа" },
+];
+
 function parseRoute(hash: string): Route {
   const cleanHash = (hash || "#/").split("?")[0];
   if (cleanHash === "#/" || cleanHash === "") return { page: "home" };
@@ -24,6 +33,64 @@ function parseRoute(hash: string): Route {
     return { page: "shop", category };
   }
   return { page: "home" };
+}
+
+function SignalIcon({ name }: { name: SignalIconName }) {
+  if (name === "archive") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 8.5h16v11H4z" />
+        <path d="M6.2 8.5V5.7h5.2l1.5 2.8" />
+        <path d="M8 13.5h8" />
+      </svg>
+    );
+  }
+
+  if (name === "delivery") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3.8 7.5h11.5v9H3.8z" />
+        <path d="M15.3 10h3.2l2.1 2.6v3.9h-5.3z" />
+        <path d="M7.2 18.5a1.7 1.7 0 1 0 0-3.4 1.7 1.7 0 0 0 0 3.4Z" />
+        <path d="M17.8 18.5a1.7 1.7 0 1 0 0-3.4 1.7 1.7 0 0 0 0 3.4Z" />
+      </svg>
+    );
+  }
+
+  if (name === "custom") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 5h8.2L20 11.8 11.8 20 5 13.2z" />
+        <path d="M9 8.8h.1" />
+        <path d="M14.6 4.2v3.2" />
+        <path d="M18.1 6.1l-2.3 2.3" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 18.8 18.8 6" />
+      <path d="m15.8 4.8 2.4-2.4 1.9 1.9-2.4 2.4" />
+      <path d="M5.3 19.5c2.4-1.3 4.3-1.1 5.5.6" />
+      <path d="M6.7 13.7 10.3 17" />
+    </svg>
+  );
+}
+
+function SignalMarqueeGroup({ hidden = false }: { hidden?: boolean }) {
+  return (
+    <div className="signal-marquee-group" aria-hidden={hidden}>
+      {signalItems.map((item) => (
+        <span className="signal-item" key={`${item.icon}-${item.label}`}>
+          <span className="signal-icon">
+            <SignalIcon name={item.icon} />
+          </span>
+          <span>{item.label}</span>
+        </span>
+      ))}
+    </div>
+  );
 }
 
 export default function App() {
@@ -216,11 +283,13 @@ function HomePage({
         </div>
       </section>
 
-      <section className="signal-strip" aria-label="direallised signals">
-        <span>BLACK LEATHER PATCH FLARED JEANS</span>
-        <span>SEEN ON STAGE</span>
-        <span>UNDERGROUND FIT ARCHIVE</span>
-        <span>ONE PIECE DROP</span>
+      <section className="signal-strip" aria-label="Особенности Direallised">
+        <div className="signal-marquee-track">
+          <SignalMarqueeGroup />
+          <SignalMarqueeGroup hidden />
+          <SignalMarqueeGroup hidden />
+          <SignalMarqueeGroup hidden />
+        </div>
       </section>
 
       <section className="catalog-top">
