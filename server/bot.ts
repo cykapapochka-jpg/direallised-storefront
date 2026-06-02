@@ -35,6 +35,42 @@ interface AdminSession {
 const sessions = new Map<number, AdminSession>();
 const rootDir = process.cwd();
 
+function sessionKey(key: number) {
+  return String(key);
+}
+
+async function readPersistedSession(key: number) {
+  const store = await readStore();
+  const session = store.botSessions?.[sessionKey(key)];
+  if (!session || typeof session !== "object") return undefined;
+  return session as AdminSession;
+}
+
+async function persistSession(key: number, session: AdminSession) {
+  sessions.set(key, session);
+  await updateStore((store) => {
+    store.botSessions = { ...(store.botSessions ?? {}), [sessionKey(key)]: session };
+  });
+}
+
+async function clearSession(key: number) {
+  sessions.delete(key);
+  const store = await readStore();
+  if (!store.botSessions?.[sessionKey(key)]) return;
+
+  await updateStore((store) => {
+    const nextSessions = { ...store.botSessions };
+    delete nextSessions[sessionKey(key)];
+    store.botSessions = nextSessions;
+  });
+}
+
+async function getSession(key: number) {
+  const session = sessions.get(key) ?? (await readPersistedSession(key));
+  if (session) sessions.set(key, session);
+  return session;
+}
+
 function panel(title: string, body: string[] = []) {
   return [`<b>${title}</b>`, body.length ? `<blockquote>${body.filter(Boolean).join("\n")}</blockquote>` : ""].filter(Boolean).join("\n\n");
 }
@@ -331,13 +367,13 @@ export function createBot(token: string) {
 
   bot.command("menu", async (ctx) => {
     if (!(await ensureAdmin(ctx))) return;
-    sessions.delete(userKey(ctx));
+    await clearSession(userKey(ctx));
     await ctx.reply(panel("🏠 Главное меню", ["Выбери раздел админки."]), { parse_mode: "HTML", ...mainMenu() });
   });
 
   bot.action("menu", async (ctx) => {
     if (!(await ensureAdmin(ctx))) return;
-    sessions.delete(userKey(ctx));
+    await clearSession(userKey(ctx));
     await ctx.answerCbQuery();
     await ctx.reply(panel("🏠 Главное меню", ["Выбери раздел админки."]), { parse_mode: "HTML", ...mainMenu() });
   });
@@ -345,7 +381,7 @@ export function createBot(token: string) {
   bot.action("flow:back", async (ctx) => {
     if (!(await ensureAdmin(ctx))) return;
     const key = userKey(ctx);
-    const session = sessions.get(key);
+    const session = await getSession(key);
     await ctx.answerCbQuery();
 
     if (!session) {
@@ -407,7 +443,7 @@ export function createBot(token: string) {
     }
 
     if (session.mode === "promo:code") {
-      sessions.delete(key);
+      await clearSession(key);
       const store = await readStore();
       await ctx.reply(panel("🏷 Промокоды", [`Активных: ${store.promocodes.filter((promo) => promo.active).length}`, `Всего: ${store.promocodes.length}`]), {
         parse_mode: "HTML",
@@ -417,11 +453,13 @@ export function createBot(token: string) {
     }
     if (session.mode === "promo:type") {
       session.mode = "promo:code";
+      await persistSession(key, session);
       await ctx.reply(panel("➕ Новый промокод", ["Напиши код, например DIRE10."]), { parse_mode: "HTML", ...backMenu() });
       return;
     }
     if (session.mode === "promo:value") {
       session.mode = "promo:type";
+      await persistSession(key, session);
       await ctx.reply(panel("🏷 Тип скидки", ["Напиши percent для процента или fixed для суммы в рублях."]), {
         parse_mode: "HTML",
         ...backMenu(),
@@ -429,7 +467,7 @@ export function createBot(token: string) {
       return;
     }
     if (session.mode === "promo:edit-value" && session.promoCode) {
-      sessions.delete(key);
+      await clearSession(key);
       const store = await readStore();
       const promo = store.promocodes.find((item) => item.code === session.promoCode);
       await ctx.reply(promo ? promoSummary(promo) : "Промокод не найден.", {
@@ -589,7 +627,7 @@ export function createBot(token: string) {
 
   bot.action("promos:list", async (ctx) => {
     if (!(await ensureAdmin(ctx))) return;
-    sessions.delete(userKey(ctx));
+    await clearSession(userKey(ctx));
     const store = await readStore();
     await ctx.answerCbQuery();
     await ctx.reply(panel("🏷 Промокоды", [`Активных: ${store.promocodes.filter((promo) => promo.active).length}`, `Всего: ${store.promocodes.length}`]), {
@@ -600,7 +638,7 @@ export function createBot(token: string) {
 
   bot.action("promo:add", async (ctx) => {
     if (!(await ensureAdmin(ctx))) return;
-    sessions.set(userKey(ctx), { mode: "promo:code", draft: { promo: { type: "percent", active: true } } });
+    await persistSession(userKey(ctx), { mode: "promo:code", draft: { promo: { type: "percent", active: true } } });
     await ctx.answerCbQuery();
     await ctx.reply(panel("➕ Новый промокод", ["Напиши код, например DIRE10."]), { parse_mode: "HTML", ...backMenu() });
   });
@@ -643,7 +681,7 @@ export function createBot(token: string) {
 
   bot.action(/^promo:edit:(.+)$/, async (ctx) => {
     if (!(await ensureAdmin(ctx))) return;
-    sessions.set(userKey(ctx), { mode: "promo:edit-value", promoCode: ctx.match[1] });
+    await persistSession(userKey(ctx), { mode: "promo:edit-value", promoCode: ctx.match[1] });
     await ctx.answerCbQuery();
     await ctx.reply(panel("💸 Новая скидка", ["Напиши новое значение числом. Тип скидки останется прежним."]), {
       parse_mode: "HTML",
@@ -758,7 +796,7 @@ export function createBot(token: string) {
   bot.on("text", async (ctx) => {
     if (!(await ensureAdmin(ctx))) return;
     const id = userKey(ctx);
-    const session = sessions.get(id);
+    const session = await getSession(id);
     const text = messageText(ctx);
     if (!session) {
       await ctx.reply(panel("🏠 Главное меню", ["Выбери раздел админки."]), { parse_mode: "HTML", ...mainMenu() });
@@ -822,6 +860,7 @@ export function createBot(token: string) {
     if (session.mode === "promo:code") {
       session.draft = { ...session.draft, promo: { code: normalizeCode(text), type: "percent", active: true } };
       session.mode = "promo:type";
+      await persistSession(id, session);
       await ctx.reply(panel("🏷 Тип скидки", ["Напиши percent для процента или fixed для суммы в рублях."]), {
         parse_mode: "HTML",
         ...backMenu(),
@@ -832,6 +871,7 @@ export function createBot(token: string) {
       const type = text.toLowerCase().includes("fixed") ? "fixed" : "percent";
       session.draft = { ...session.draft, promo: { ...session.draft?.promo, type, active: true } };
       session.mode = "promo:value";
+      await persistSession(id, session);
       await ctx.reply(panel("💸 Размер скидки", [type === "percent" ? "Процент скидки числом." : "Сумма скидки в рублях."]), {
         parse_mode: "HTML",
         ...backMenu(),
@@ -849,7 +889,7 @@ export function createBot(token: string) {
         store.promocodes = store.promocodes.filter((item) => item.code !== promo.code);
         store.promocodes.unshift(promo);
       });
-      sessions.delete(id);
+      await clearSession(id);
       await ctx.reply(promoSummary(promo), { parse_mode: "HTML", ...promoMenu(promo) });
       return;
     }
@@ -859,7 +899,7 @@ export function createBot(token: string) {
         updated = store.promocodes.find((promo) => promo.code === session.promoCode);
         if (updated) updated.value = Number(text.replace(/\D/g, ""));
       });
-      sessions.delete(id);
+      await clearSession(id);
       await ctx.reply(updated ? promoSummary(updated) : "Промокод не найден.", {
         parse_mode: "HTML",
         ...(updated ? promoMenu(updated) : mainMenu()),

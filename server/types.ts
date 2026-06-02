@@ -46,4 +46,5 @@ export interface StoreData {
   catalog: CatalogData;
   promocodes: PromoCode[];
   orders: unknown[];
+  botSessions?: Record<string, unknown>;
 }

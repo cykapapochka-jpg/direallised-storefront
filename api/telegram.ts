@@ -1,5 +1,5 @@
 import { createBot } from "../server/bot.js";
-import { updateStore } from "../server/store.js";
+import { readStore, updateStore } from "../server/store.js";
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const bot = token ? createBot(token) : null;
@@ -11,6 +11,10 @@ async function ensureEnvAdmins() {
     .filter(Boolean);
 
   if (!envAdminIds.length) return;
+
+  const currentStore = await readStore();
+  const hasMissingAdmin = envAdminIds.some((id) => !currentStore.admins.telegramIds.includes(id));
+  if (!hasMissingAdmin) return;
 
   await updateStore((store) => {
     for (const id of envAdminIds) {

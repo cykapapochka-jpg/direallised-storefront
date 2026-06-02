@@ -12,6 +12,13 @@ const githubBranch = process.env.GITHUB_BRANCH || "main";
 
 let writeQueue = Promise.resolve();
 
+class StoreWriteConflict extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "StoreWriteConflict";
+  }
+}
+
 export async function readStore(): Promise<StoreData> {
   const raw = await readTextFile("data/store.json");
   return repairMojibake(JSON.parse(raw.replace(/^\uFEFF/, ""))) as StoreData;
@@ -23,10 +30,22 @@ export async function writeStore(nextStore: StoreData) {
 }
 
 export async function updateStore(mutator: (store: StoreData) => void | Promise<void>) {
-  const store = await readStore();
-  await mutator(store);
-  await writeStore(store);
-  return store;
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    try {
+      const store = await readStore();
+      await mutator(store);
+      await writeStore(store);
+      return store;
+    } catch (error) {
+      if (!(error instanceof StoreWriteConflict)) throw error;
+      lastError = error;
+      await new Promise((resolve) => setTimeout(resolve, 150 * (attempt + 1)));
+    }
+  }
+
+  throw lastError;
 }
 
 export function normalizeCode(code: string) {
@@ -39,7 +58,7 @@ export function normalizeUsername(username: string) {
 
 export function findPromo(promocodes: PromoCode[], code: string) {
   const normalized = normalizeCode(code);
-  return promocodes.find((promo) => promo.active && promo.code === normalized);
+  return promocodes.find((promo) => promo.active && normalizeCode(promo.code) === normalized);
 }
 
 export async function savePublicFile(relativePath: string, bytes: Buffer) {
@@ -110,6 +129,9 @@ async function writeGithubFile(relativePath: string, base64Content: string, mess
 
   if (!response.ok) {
     const text = await response.text();
+    if (!binary && response.status === 409) {
+      throw new StoreWriteConflict(`GitHub write conflict: ${text}`);
+    }
     throw new Error(`GitHub ${binary ? "upload" : "write"} failed: ${text}`);
   }
 }
