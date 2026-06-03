@@ -130,7 +130,10 @@
           "/assets/look-03.jpg"
         ],
         "desc": "Прокрашивание в несколько слоев с серебрянным напылением, скини клеш фит, множество фурнитуры и деталей сделанных вручную.\nВставки и подкладки из натуральной кожи.\nНа шнуровке с регулировкой талии. В ЕДИНСТВЕННОМ ЭКЗЕМПЛЯРЕ.",
-        "fulfillment": "stock"
+        "fulfillment": "stock",
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/BLPFJ-lookbook-1-1780525782949.jpg"
+        ]
       }
     ]
   },
