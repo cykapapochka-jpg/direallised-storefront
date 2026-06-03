@@ -11,11 +11,19 @@
     "categories": [
       {
         "id": "all",
-        "label": "Все"
+        "label": "Р’СЃРµ"
+      },
+      {
+        "id": "one-of-one",
+        "label": "1/1"
+      },
+      {
+        "id": "tailoring",
+        "label": "РџРѕРґ РїРѕРґС€РёРІ"
       },
       {
         "id": "jeans",
-        "label": "Джинсы"
+        "label": "Р”Р¶РёРЅСЃС‹"
       }
     ],
     "catalogHeroPhotos": [
@@ -47,75 +55,6 @@
     ],
     "products": [
       {
-        "id": "1",
-        "title": "1",
-        "price": 22,
-        "category": "jeans",
-        "fulfillment": "preorder",
-        "sizes": [
-          "3"
-        ],
-        "images": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-1-1780525899689.jpg"
-        ],
-        "lookbookImages": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-lookbook-1-1780525912841.jpg"
-        ],
-        "desc": "112",
-        "soldOut": true
-      },
-      {
-        "id": "drop-1780525671898",
-        "title": "тест",
-        "price": 127821712,
-        "category": "jeans",
-        "fulfillment": "stock",
-        "sizes": [
-          "к"
-        ],
-        "images": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525671898-1-1780525695975.jpg"
-        ],
-        "lookbookImages": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525671898-lookbook-1-1780525704858.jpg"
-        ],
-        "desc": "тестстсттстст"
-      },
-      {
-        "id": "1",
-        "title": "1",
-        "price": 2,
-        "category": "jeans",
-        "fulfillment": "stock",
-        "sizes": [
-          "4"
-        ],
-        "images": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-1-1780525633932.jpg"
-        ],
-        "lookbookImages": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-lookbook-1-1780525640988.jpg"
-        ],
-        "desc": "3"
-      },
-      {
-        "id": "drop-1780525490116",
-        "title": "обы",
-        "price": 1111,
-        "category": "jeans",
-        "fulfillment": "stock",
-        "sizes": [
-          "1"
-        ],
-        "images": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525490116-1-1780525502468.jpg"
-        ],
-        "lookbookImages": [
-          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525490116-lookbook-1-1780525510962.jpg"
-        ],
-        "desc": "312312412"
-      },
-      {
         "id": "Flared-boro-jeans",
         "title": "Flared boro jeans",
         "price": 11000,
@@ -128,8 +67,23 @@
           "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/Flared-boro-jeans-1-1780420213822.jpg",
           "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/Flared-boro-jeans-2-1780420223131.jpg"
         ],
-        "desc": "прошивка патчей боро техникой,осветление,дистресс,камо подкладки",
-        "soldOut": false
+        "desc": "РїСЂРѕС€РёРІРєР° РїР°С‚С‡РµР№ Р±РѕСЂРѕ С‚РµС…РЅРёРєРѕР№,РѕСЃРІРµС‚Р»РµРЅРёРµ,РґРёСЃС‚СЂРµСЃСЃ,РєР°РјРѕ РїРѕРґРєР»Р°РґРєРё"
+      },
+      {
+        "id": "drop-1780344265951",
+        "title": "С‚РµСЃС‚",
+        "price": 1111,
+        "category": "jeans",
+        "fulfillment": "preorder",
+        "sizes": [
+          "РўР°Р»РёСЏ 60",
+          "С‚СЂР°С‚Р°С‚Р°",
+          "РіРѕР»РѕРІР°)"
+        ],
+        "images": [
+          "/uploads/drop-1780344265951-1-1780344289177.jpg"
+        ],
+        "desc": "21123213123"
       },
       {
         "id": "BLPFJ",
@@ -148,9 +102,15 @@
           "/assets/look-02.jpg",
           "/assets/look-03.jpg"
         ],
-        "desc": "Прокрашивание в несколько слоев с серебрянным напылением, скини клеш фит, множество фурнитуры и деталей сделанных вручную.\nВставки и подкладки из натуральной кожи.\nНа шнуровке с регулировкой талии. В ЕДИНСТВЕННОМ ЭКЗЕМПЛЯРЕ.",
+        "desc": "РџСЂРѕРєСЂР°С€РёРІР°РЅРёРµ РІ РЅРµСЃРєРѕР»СЊРєРѕ СЃР»РѕРµРІ СЃ СЃРµСЂРµР±СЂСЏРЅРЅС‹Рј РЅР°РїС‹Р»РµРЅРёРµРј, СЃРєРёРЅРё РєР»РµС€ С„РёС‚, РјРЅРѕР¶РµСЃС‚РІРѕ С„СѓСЂРЅРёС‚СѓСЂС‹ Рё РґРµС‚Р°Р»РµР№ СЃРґРµР»Р°РЅРЅС‹С… РІСЂСѓС‡РЅСѓСЋ.\nР’СЃС‚Р°РІРєРё Рё РїРѕРґРєР»Р°РґРєРё РёР· РЅР°С‚СѓСЂР°Р»СЊРЅРѕР№ РєРѕР¶Рё.\nРќР° С€РЅСѓСЂРѕРІРєРµ СЃ СЂРµРіСѓР»РёСЂРѕРІРєРѕР№ С‚Р°Р»РёРё. Р’ Р•Р”РРќРЎРўР’Р•РќРќРћРњ Р­РљР—Р•РњРџР›РЇР Р•.",
         "fulfillment": "stock",
-        "lookbookImages": []
+        "soldOut": false,
+        "lookbookImages": [
+          "/uploads/test-1-1780353356220.jpg",
+          "/assets/catalog-01.jpg",
+          "/assets/catalog-02.jpg",
+          "/assets/catalog-03.jpg"
+        ]
       }
     ]
   },
