@@ -47,6 +47,23 @@
     ],
     "products": [
       {
+        "id": "drop-1780525490116",
+        "title": "обы",
+        "price": 1111,
+        "category": "jeans",
+        "fulfillment": "stock",
+        "sizes": [
+          "1"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525490116-1-1780525502468.jpg"
+        ],
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525490116-lookbook-1-1780525510962.jpg"
+        ],
+        "desc": "312312412"
+      },
+      {
         "id": "Flared-boro-jeans",
         "title": "Flared boro jeans",
         "price": 11000,
