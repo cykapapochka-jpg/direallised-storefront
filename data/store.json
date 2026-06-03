@@ -128,7 +128,8 @@
           "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/Flared-boro-jeans-1-1780420213822.jpg",
           "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/Flared-boro-jeans-2-1780420223131.jpg"
         ],
-        "desc": "прошивка патчей боро техникой,осветление,дистресс,камо подкладки"
+        "desc": "прошивка патчей боро техникой,осветление,дистресс,камо подкладки",
+        "soldOut": true
       },
       {
         "id": "BLPFJ",
