@@ -113,5 +113,13 @@
   },
   "promocodes": [],
   "orders": [],
-  "botSessions": {}
+  "botSessions": {
+    "97162873": {
+      "mode": "add:category",
+      "draft": {
+        "fulfillment": "stock",
+        "images": []
+      }
+    }
+  }
 }
