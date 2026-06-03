@@ -47,6 +47,23 @@
     ],
     "products": [
       {
+        "id": "drop-1780525671898",
+        "title": "тест",
+        "price": 127821712,
+        "category": "jeans",
+        "fulfillment": "stock",
+        "sizes": [
+          "к"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525671898-1-1780525695975.jpg"
+        ],
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780525671898-lookbook-1-1780525704858.jpg"
+        ],
+        "desc": "тестстсттстст"
+      },
+      {
         "id": "1",
         "title": "1",
         "price": 2,
