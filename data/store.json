@@ -47,6 +47,23 @@
     ],
     "products": [
       {
+        "id": "1",
+        "title": "1",
+        "price": 22,
+        "category": "jeans",
+        "fulfillment": "preorder",
+        "sizes": [
+          "3"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-1-1780525899689.jpg"
+        ],
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-lookbook-1-1780525912841.jpg"
+        ],
+        "desc": "112"
+      },
+      {
         "id": "drop-1780525671898",
         "title": "тест",
         "price": 127821712,
