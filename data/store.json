@@ -55,6 +55,24 @@
     ],
     "products": [
       {
+        "id": "drop-1780528868599",
+        "title": "тест",
+        "price": 12000,
+        "category": "tailoring",
+        "fulfillment": "stock",
+        "soldOut": false,
+        "sizes": [
+          "M"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780528868599-1-1780528896906.jpg"
+        ],
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/drop-1780528868599-lookbook-1-1780528907525.jpg"
+        ],
+        "desc": "тест"
+      },
+      {
         "id": "1",
         "title": "1",
         "price": 222,
