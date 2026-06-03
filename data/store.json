@@ -61,7 +61,8 @@
         "lookbookImages": [
           "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-lookbook-1-1780525912841.jpg"
         ],
-        "desc": "112"
+        "desc": "112",
+        "soldOut": true
       },
       {
         "id": "drop-1780525671898",
