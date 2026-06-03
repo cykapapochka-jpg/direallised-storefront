@@ -47,6 +47,23 @@
     ],
     "products": [
       {
+        "id": "1",
+        "title": "1",
+        "price": 2,
+        "category": "jeans",
+        "fulfillment": "stock",
+        "sizes": [
+          "4"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-1-1780525633932.jpg"
+        ],
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-lookbook-1-1780525640988.jpg"
+        ],
+        "desc": "3"
+      },
+      {
         "id": "drop-1780525490116",
         "title": "обы",
         "price": 1111,
