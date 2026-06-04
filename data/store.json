@@ -55,6 +55,24 @@
     ],
     "products": [
       {
+        "id": "1",
+        "title": "1",
+        "price": 2222,
+        "category": "one-of-one",
+        "fulfillment": "stock",
+        "soldOut": false,
+        "sizes": [
+          "ф"
+        ],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-1-1780585549470.jpg"
+        ],
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/1-lookbook-1-1780585559444.jpg"
+        ],
+        "desc": "333"
+      },
+      {
         "id": "drop-1780579570345",
         "title": "тест",
         "price": 12222,
