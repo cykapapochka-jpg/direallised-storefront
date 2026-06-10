@@ -151,9 +151,12 @@
         "sizes": [
           "M"
         ],
-        "slots": 1
+        "slots": 1,
+        "lookbookImages": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/211212-lookbook-1-1781123887128.jpg"
+        ]
       },
-      "slotIndex": 0,
+      "slotIndex": 1,
       "productId": "211212"
     }
   }
