@@ -153,10 +153,5 @@
   },
   "promocodes": [],
   "orders": [],
-  "botSessions": {
-    "97162873": {
-      "mode": "edit:handmade-photo",
-      "slotIndex": 5
-    }
-  }
+  "botSessions": {}
 }
