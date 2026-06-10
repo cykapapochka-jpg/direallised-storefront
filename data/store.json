@@ -137,7 +137,7 @@
   "orders": [],
   "botSessions": {
     "97162873": {
-      "mode": "add:slots",
+      "mode": "add:photo",
       "draft": {
         "fulfillment": "stock",
         "images": [],
@@ -148,8 +148,11 @@
         "desc": "11111",
         "sizes": [
           "M"
-        ]
-      }
+        ],
+        "slots": 1
+      },
+      "slotIndex": 0,
+      "productId": "211212"
     }
   }
 }
