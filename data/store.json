@@ -51,6 +51,11 @@
         "name": "",
         "image": "/assets/star-after.jpg",
         "showText": false
+      },
+      {
+        "name": "",
+        "image": "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/handmade-handmade-5-1781125781404.jpg",
+        "showText": false
       }
     ],
     "products": [
