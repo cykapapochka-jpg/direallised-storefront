@@ -137,11 +137,10 @@
   "orders": [],
   "botSessions": {
     "97162873": {
-      "mode": "add:title",
+      "mode": "add:category",
       "draft": {
         "fulfillment": "stock",
-        "images": [],
-        "category": "one-of-one"
+        "images": []
       }
     }
   }
