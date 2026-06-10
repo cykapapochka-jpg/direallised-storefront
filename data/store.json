@@ -137,13 +137,14 @@
   "orders": [],
   "botSessions": {
     "97162873": {
-      "mode": "add:price",
+      "mode": "add:desc",
       "draft": {
         "fulfillment": "stock",
         "images": [],
         "category": "tailoring",
         "id": "211212",
-        "title": "211212"
+        "title": "211212",
+        "price": 222
       }
     }
   }
