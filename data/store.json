@@ -137,10 +137,12 @@
   "orders": [],
   "botSessions": {
     "97162873": {
-      "mode": "add:photo",
+      "mode": "add:lookbook-photo",
       "draft": {
         "fulfillment": "stock",
-        "images": [],
+        "images": [
+          "https://raw.githubusercontent.com/cykapapochka-jpg/direallised-storefront/main/public/uploads/211212-1-1781123879303.jpg"
+        ],
         "category": "tailoring",
         "id": "211212",
         "title": "211212",
